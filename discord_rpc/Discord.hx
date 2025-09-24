@@ -4,32 +4,32 @@ import haxe.ds.Vector;
 import sys.thread.Thread;
 import haxe.Int64;
 
-enum abstract DiscordPremiumType(Int) from Int to Int {
-	var None:DiscordPremiumType;
-	var NitroClassic:DiscordPremiumType;
-	var Nitro:DiscordPremiumType;
-	var NitroBasic:DiscordPremiumType;
+enum abstract PremiumType(Int) from Int to Int {
+	var None:PremiumType;
+	var NitroClassic:PremiumType;
+	var Nitro:PremiumType;
+	var NitroBasic:PremiumType;
 }
 
-enum abstract DiscordActivityPartyPrivacy(Int) from Int to Int {
-	var Private:DiscordActivityPartyPrivacy;
-	var Public:DiscordActivityPartyPrivacy;
+enum abstract ActivityPartyPrivacy(Int) from Int to Int {
+	var Private:ActivityPartyPrivacy;
+	var Public:ActivityPartyPrivacy;
 }
 
-enum abstract DiscordActivityType(Int) from Int to Int {
-	var Playing:DiscordActivityType = 0;
-	var Listening:DiscordActivityType = 2;
-	var Watching:DiscordActivityType = 3;
-	var Competing:DiscordActivityType = 5;
+enum abstract ActivityType(Int) from Int to Int {
+	var Playing:ActivityType = 0;
+	var Listening:ActivityType = 2;
+	var Watching:ActivityType = 3;
+	var Competing:ActivityType = 5;
 }
 
-enum abstract DiscordActivityJoinRequestReply(Int) from Int to Int {
-	var No:DiscordActivityJoinRequestReply;
-	var Yes:DiscordActivityJoinRequestReply;
-	var Ignore:DiscordActivityJoinRequestReply;
+enum abstract ActivityJoinRequestReply(Int) from Int to Int {
+	var No:ActivityJoinRequestReply;
+	var Yes:ActivityJoinRequestReply;
+	var Ignore:ActivityJoinRequestReply;
 }
 
-final class DiscordActivityTimestamps {
+final class ActivityTimestamps {
 	public var start:Int64;
 	public var end:Int64;
 
@@ -37,18 +37,18 @@ final class DiscordActivityTimestamps {
 		set(start, end);
 	}
 
-	public inline function set(start:Int64, end:Int64):DiscordActivityTimestamps {
+	public inline function set(start:Int64, end:Int64):ActivityTimestamps {
 		this.start = start;
 		this.end = end;
 		return this;
 	}
 
-	public inline function reset():DiscordActivityTimestamps {
+	public inline function reset():ActivityTimestamps {
 		return set(0, 0);
 	}
 }
 
-final class DiscordActivityAssets {
+final class ActivityAssets {
 	public var largeImage:Null<String>;
 	public var largeText:Null<String>;
 
@@ -58,32 +58,32 @@ final class DiscordActivityAssets {
 	public function new() {
 	}
 
-	public inline function setLarge(image:String, text:String):DiscordActivityAssets {
+	public inline function setLarge(image:String, text:String):ActivityAssets {
 		largeImage = image;
 		largeText = text;
 		return this;
 	}
 
-	public inline function setSmall(image:String, text:String):DiscordActivityAssets {
+	public inline function setSmall(image:String, text:String):ActivityAssets {
 		smallImage = image;
 		smallText = text;
 		return this;
 	}
 
-	public inline function resetLarge():DiscordActivityAssets {
+	public inline function resetLarge():ActivityAssets {
 		return setLarge(null, null);
 	}
 
-	public inline function resetSmall():DiscordActivityAssets {
+	public inline function resetSmall():ActivityAssets {
 		return setSmall(null, null);
 	}
 
-	public inline function reset():DiscordActivityAssets {
+	public inline function reset():ActivityAssets {
 		return resetLarge().resetSmall();
 	}
 }
 
-final class DiscordActivityPartySize {
+final class ActivityPartySize {
 	public var current:Int = 0;
 	public var max:Int = 0;
 
@@ -91,7 +91,7 @@ final class DiscordActivityPartySize {
 		set(current, max);
 	}
 
-	public inline function set(current:Int, max:Int):DiscordActivityPartySize {
+	public inline function set(current:Int, max:Int):ActivityPartySize {
 		this.current = current;
 		this.max = max;
 		return this;
@@ -102,18 +102,18 @@ final class DiscordActivityPartySize {
 	}
 }
 
-@:nullSafety final class DiscordActivityParty {
+@:nullSafety final class ActivityParty {
 	public var id:String;
-	public var size:DiscordActivityPartySize;
-	public var privacy:DiscordActivityPartyPrivacy = Public;
+	public var size:ActivityPartySize;
+	public var privacy:ActivityPartyPrivacy = Public;
 
 	public function new(id:String) {
 		this.id = id;
-		size = new DiscordActivityPartySize();
+		size = new ActivityPartySize();
 	}
 }
 
-@:nullSafety final class DiscordActivityButton {
+@:nullSafety final class ActivityButton {
 	public var label:String;
 	public var url:String;
 
@@ -127,7 +127,7 @@ final class DiscordActivityPartySize {
 	}
 }
 
-final class DiscordActivitySecrets {
+final class ActivitySecrets {
 	public var match:Null<String>;
 	public var join:Null<String>;
 	public var spectate:Null<String>;
@@ -136,43 +136,43 @@ final class DiscordActivitySecrets {
 	}
 }
 
-final class DiscordActivity {
-	public var type:DiscordActivityType;
+final class Activity {
+	public var type:ActivityType;
 
 	public var state:String;
 	public var details:String;
 
-	public var timestamps:DiscordActivityTimestamps;
+	public var timestamps:ActivityTimestamps;
 
-	public var assets:DiscordActivityAssets;
+	public var assets:ActivityAssets;
 
-	public var party:Null<DiscordActivityParty>;
+	public var party:Null<ActivityParty>;
 
-	public var buttons(default, set):Null<Vector<DiscordActivityButton>>;
+	public var buttons(default, set):Null<Vector<ActivityButton>>;
 
-	public var secrets:DiscordActivitySecrets;
+	public var secrets:ActivitySecrets;
 
 	public var instance:Bool;
 
 	public function new() {
-		timestamps = new DiscordActivityTimestamps();
-		assets = new DiscordActivityAssets();
-		secrets = new DiscordActivitySecrets();
+		timestamps = new ActivityTimestamps();
+		assets = new ActivityAssets();
+		secrets = new ActivitySecrets();
 	}
 
-	@:noCompletion private inline function set_buttons(v:Null<Vector<DiscordActivityButton>>):Null<Vector<DiscordActivityButton>> {
+	@:noCompletion private inline function set_buttons(v:Null<Vector<ActivityButton>>):Null<Vector<ActivityButton>> {
 		if (v != null && v.length > 2) throw 'Too many buttons(${v.length} / 2)';
 		return buttons = v;
 	}
 }
 
-@:noPrivateAccess final class DiscordUser {
+@:noPrivateAccess final class User {
 	public final userId:String;
 	public final username:String;
 	public final globalName:String;
 	public final discriminator:String;
 	public final avatar:String;
-	public final premiumType:DiscordPremiumType;
+	public final premiumType:PremiumType;
 	public final bot:Bool;
 
 	@:allow(discord_rpc)
@@ -187,13 +187,13 @@ final class DiscordActivity {
 	}
 }
 
-@:noPrivateAccess final class DiscordEventHandlers {
-	public var ready:(request:DiscordUser) -> Void;
+@:noPrivateAccess final class EventHandlers {
+	public var ready:(request:User) -> Void;
 	public var disconnected:(errorCode:Int, message:String) -> Void;
 	public var errored:(errorCode:Int, message:String) -> Void;
 	public var joinGame:(joinSecret:String) -> Void;
 	public var spectateGame:(spectateSecret:String) -> Void;
-	public var joinRequest:(request:DiscordUser) -> Void;
+	public var joinRequest:(request:User) -> Void;
 
 	public function new() {
 	}
@@ -202,12 +202,12 @@ final class DiscordActivity {
 @:access(String.fromUTF8)
 @:access(String.toUtf8)
 @:noPrivateAccess class Discord {
-	public static var handlers:Null<DiscordEventHandlers>;
+	public static var handlers:Null<EventHandlers>;
 
 	private static inline var CALLBACKS_DAEMON_STOP_WORD:String = 'stop';
 	private static var callbacksDaemon:Null<Thread>;
 
-	public static function initialize(applicationId:String, ?handlers:DiscordEventHandlers, ?steamId:String) {
+	public static function initialize(applicationId:String, ?handlers:EventHandlers, ?steamId:String) {
 		Discord.handlers = handlers;
 
 		DiscordRpc.initialize(applicationId.toUtf8(), ready, disconnected, errored, joinGame, spectateGame, joinRequest, steamId?.toUtf8());
@@ -239,8 +239,8 @@ final class DiscordActivity {
 		DiscordRpc.shutdown();
 	}
 
-	public static function updateActivity(activity:DiscordActivity) {
-		final v:DiscordActivity = activity;
+	public static function updateActivity(activity:Activity) {
+		final v:Activity = activity;
 		if (v == null) DiscordRpc.clearPresence();
 		else {
 			final state:hl.Bytes = v.state?.toUtf8();
@@ -264,7 +264,7 @@ final class DiscordActivity {
 		}
 	}
 
-	public static function respond(userId:String, reply:DiscordActivityJoinRequestReply) {
+	public static function respond(userId:String, reply:ActivityJoinRequestReply) {
 		DiscordRpc.respond(userId.toUtf8(), reply);
 	}
 
@@ -275,7 +275,7 @@ final class DiscordActivity {
 	private static function ready(userId:hl.Bytes, username:hl.Bytes, globalName:hl.Bytes, discriminator:hl.Bytes, avatar:hl.Bytes, premiumType:Int, bot:Bool) {
 		if (handlers?.ready == null) return;
 
-		final request = new DiscordUser(String.fromUTF8(userId), String.fromUTF8(username), String.fromUTF8(globalName), String.fromUTF8(discriminator),
+		final request = new User(String.fromUTF8(userId), String.fromUTF8(username), String.fromUTF8(globalName), String.fromUTF8(discriminator),
 			String.fromUTF8(avatar), premiumType, bot);
 
 		handlers.ready(request);
@@ -309,7 +309,7 @@ final class DiscordActivity {
 			bot:Bool) {
 		if (handlers?.joinRequest == null) return;
 
-		final request = new DiscordUser(String.fromUTF8(userId), String.fromUTF8(username), String.fromUTF8(globalName), String.fromUTF8(discriminator),
+		final request = new User(String.fromUTF8(userId), String.fromUTF8(username), String.fromUTF8(globalName), String.fromUTF8(discriminator),
 			String.fromUTF8(avatar), premiumType, bot);
 
 		handlers.joinRequest(request);

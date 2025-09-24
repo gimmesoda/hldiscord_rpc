@@ -1,4 +1,11 @@
+# HXCPP artifacts
 /obj/
-/out/
-/discord_rpc.hdll
+
+# CMake artifacts
+/build/
+
+# Test bytecode
 /test.hl
+
+# Output DLL
+/discord_rpc.hdll*

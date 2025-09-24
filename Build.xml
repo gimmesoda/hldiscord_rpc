@@ -17,6 +17,7 @@
 	<set name="HL_INCLUDE" value="${HASHLINK_PATH}/include" if="HASHLINK_PATH" unless="HL_INCLUDE"/>
 	<set name="HL_INCLUDE" value="${HL_PATH}/include" if="HL_PATH" unless="HL_INCLUDE"/>
 	<set name="HL_INCLUDE" value="${HLPATH}/include" if="HLPATH" unless="HL_INCLUDE"/>
+	<set name="HL_INCLUDE" value="${HL_BIN}/include" unless="HL_INCLUDE"/>
 
 	<files id="discord-rpc">
 		<compilerflag value="-Ilib/discord-rpc/include"/>
@@ -49,7 +50,7 @@
 		<compilerflag value="-I${HL_INCLUDE}"/>
 		<compilerflag value="-Ilib/discord-rpc/include"/>
 
-		<file name="discord_rpc.cpp"/>
+		<file name="extension.cpp"/>
 	</files>
 
 	<target id="default" output="discord_rpc" toolid="dll" tool="linker">
@@ -75,6 +76,6 @@
 		<lib name="-lhl" unless="windows"/>
 
 		<ext value=".hdll"/>
-		<outdir name="out"/>
+		<outdir name="./"/>
 	</target>
 </xml>

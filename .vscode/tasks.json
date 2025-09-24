@@ -3,7 +3,7 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"label": "Build Library",
+			"label": "Build Library (HXCPP)",
 			"command": "haxelib",
 			"args": [
 				"run",
@@ -12,5 +12,10 @@
 				"-DHXCPP_M64"
 			],
 		},
+		{
+			"type": "cmake",
+			"label": "Build Library (CMake) (WIP)",
+			"command": "build"
+		}
 	]
 }
