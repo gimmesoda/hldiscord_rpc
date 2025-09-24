@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Build Library",
+			"command": "haxelib",
+			"args": [
+				"run",
+				"hxcpp",
+				"Build.xml",
+				"-DHXCPP_M64"
+			],
+		},
+	]
+}

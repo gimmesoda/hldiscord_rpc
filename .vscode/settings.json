@@ -1,0 +1,19 @@
+{
+	"files.trimFinalNewlines": true,
+	"files.insertFinalNewline": true,
+	"files.eol": "\n",
+	"files.trimTrailingWhitespace": true,
+
+	"editor.insertSpaces": false,
+
+	"[haxe]": {
+		"editor.formatOnSave": true,
+	},
+
+	"haxe.enableCompilationServer": false,
+
+	"C_Cpp.errorSquiggles": "enabled",
+	"files.associations": {
+		"atomic": "cpp"
+	},
+}

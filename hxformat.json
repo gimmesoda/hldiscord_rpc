@@ -1,0 +1,27 @@
+{
+   "disableFormatting": false,
+   "lineEnds": {
+      "emptyCurly": "break",
+      "leftCurly": "after",
+      "rightCurly": "both",
+      "objectLiteralCurly": {
+         "emptyCurly": "noBreak"
+      }
+   },
+   "sameLine": {
+      "ifBody": "same",
+      "elseBody": "same",
+      "ifElse": "same",
+      "doWhile": "same",
+      "tryBody": "same",
+      "tryCatch": "same",
+      "catchBody": "same",
+      "forBody": "same",
+      "whileBody": "same"
+   },
+   "whitespace": {
+      "switchPolicy": "around",
+      "ifPolicy": "around",
+      "whilePolicy": "around"
+   }
+}

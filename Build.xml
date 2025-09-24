@@ -1,0 +1,80 @@
+<xml>
+	<pragma once="true"/>
+
+	<set name="HL_BIN" value="${HL_BINARIES}" if="HL_BINARIES" unless="HL_BIN"/>
+	<set name="HL_BIN" value="${HASHLINK_BIN}" if="HASHLINK_BIN" unless="HL_BIN"/>
+	<!-- <set name="HL_BIN" value="${HASHLINK_SRC}/" if="HASHLINK_SRC" unless="HL_BIN"/> -->
+	 <set name="HL_BIN" value="${HASHLINK}" if="HASHLINK" unless="HL_BIN"/>
+	<set name="HL_BIN" value="${HASHLINKPATH}" if="HASHLINKPATH" unless="HL_BIN"/>
+	<set name="HL_BIN" value="${HASHLINK_PATH}" if="HASHLINK_PATH" unless="HL_BIN"/>
+	<set name="HL_BIN" value="${HL_PATH}" if="HL_PATH" unless="HL_BIN"/>
+	<set name="HL_BIN" value="${HLPATH}" if="HLPATH" unless="HL_BIN"/>
+
+	<set name="HL_INCLUDE" value="${HASHLINK_INCLUDE}" if="HASHLINK_INCLUDE" unless="HL_INCLUDE"/>
+	<set name="HL_INCLUDE" value="${HASHLINK_SRC}/src" if="HASHLINK_SRC" unless="HL_INCLUDE"/>
+	<set name="HL_INCLUDE" value="${HASHLINK}/include" if="HASHLINK" unless="HL_INCLUDE"/>
+	<set name="HL_INCLUDE" value="${HASHLINKPATH}/include" if="HASHLINKPATH" unless="HL_INCLUDE"/>
+	<set name="HL_INCLUDE" value="${HASHLINK_PATH}/include" if="HASHLINK_PATH" unless="HL_INCLUDE"/>
+	<set name="HL_INCLUDE" value="${HL_PATH}/include" if="HL_PATH" unless="HL_INCLUDE"/>
+	<set name="HL_INCLUDE" value="${HLPATH}/include" if="HLPATH" unless="HL_INCLUDE"/>
+
+	<files id="discord-rpc">
+		<compilerflag value="-Ilib/discord-rpc/include"/>
+
+		<compilerflag value="-DRAPIDJSON_SSE2" if="MSVC_VER" unless="HXCPP_M64"/>
+		<compilerflag value="-Ilib/rapidjson/include"/>
+
+		<section if="windows">
+			<compilerflag value="-DWIN32_LEAN_AND_MEAN"/>
+			<compilerflag value="-DNOMCX"/>
+			<compilerflag value="-DNOSERVICE"/>
+			<compilerflag value="-DNOIME"/>
+
+			<file name="lib/discord-rpc/src/connection_windows.cpp"/>
+			<file name="lib/discord-rpc/src/discord_register_windows.cpp"/>
+		</section>
+
+		<section if="macos || linux">
+			<file name="lib/discord-rpc/src/connection_unix.cpp"/>
+			<file name="lib/discord-rpc/src/discord_register_macos.mm" if="macos"/>
+			<file name="lib/discord-rpc/src/discord_register_linux.cpp" if="linux"/>
+		</section>
+
+		<file name="lib/discord-rpc/src/discord_rpc.cpp"/>
+		<file name="lib/discord-rpc/src/rpc_connection.cpp"/>
+		<file name="lib/discord-rpc/src/serialization.cpp"/>
+	</files>
+
+	<files id="extension">
+		<compilerflag value="-I${HL_INCLUDE}"/>
+		<compilerflag value="-Ilib/discord-rpc/include"/>
+
+		<file name="discord_rpc.cpp"/>
+	</files>
+
+	<target id="default" output="discord_rpc" toolid="dll" tool="linker">
+		<section if="mingw">
+			<lib name="-lpsapi"/>
+			<lib name="-ladvapi32"/>
+		</section>
+
+		<section if="windows" unless="mingw">
+			<lib name="psapi.lib"/>
+			<lib name="advapi32.lib"/>
+		</section>
+
+		<lib name="-lpthread" if="mingw || macos || linux"/>
+
+		<files id="discord-rpc"/>
+		<files id="extension"/>
+
+		<libpath name="${HL_BIN}" if="windows"/>
+		<libpath name="/usr/local/lib" if="macos"/>
+
+		<lib name="libhl.lib" if="windows"/>
+		<lib name="-lhl" unless="windows"/>
+
+		<ext value=".hdll"/>
+		<outdir name="out"/>
+	</target>
+</xml>
