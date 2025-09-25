@@ -4,7 +4,7 @@ typedef Request = (request:User) -> Void;
 typedef Error = (errorCode:Int, message:String) -> Void;
 typedef Secret = (secret:String) -> Void;
 
-@:noPrivateAccess final class Handlers {
+final class Handlers {
 	public var ready:Request;
 	public var disconnected:Error;
 	public var errored:Error;

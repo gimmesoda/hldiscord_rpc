@@ -1,14 +1,13 @@
 package discord;
 
-import sys.thread.Thread;
+import discord._internal.*;
 
 @:access(String.fromUTF8)
 @:access(String.toUtf8)
 @:noPrivateAccess class Rpc {
 	public static var handlers:Null<Event.Handlers>;
 
-	private static inline var CALLBACKS_DAEMON_STOP_WORD:String = 'stop';
-	private static var callbacksDaemon:Null<Thread>;
+	public static final callbacksDaemon:CallbacksDaemon = new CallbacksDaemon();
 
 	public static function initialize(applicationId:String, ?handlers:Event.Handlers, ?steamId:String) {
 		Rpc.handlers = handlers;
@@ -20,25 +19,7 @@ import sys.thread.Thread;
 		NativeRpc.runCallbacks();
 	}
 
-	public static function createCallbacksDaemon(period:Float = 0.4) {
-		destroyCallbacksDaemon();
-
-		callbacksDaemon = Thread.create(() -> {
-			while (true) {
-				if (Thread.readMessage(false) == CALLBACKS_DAEMON_STOP_WORD) break;
-
-				runCallbacks();
-				Sys.sleep(period);
-			}
-		});
-	}
-
-	public static function destroyCallbacksDaemon() {
-		callbacksDaemon?.sendMessage(CALLBACKS_DAEMON_STOP_WORD);
-		callbacksDaemon = null;
-	}
-
-	public static function shutdown() {
+	public static function release() {
 		NativeRpc.shutdown();
 	}
 

@@ -122,7 +122,7 @@ final class Secrets {
 	}
 }
 
-final class Activity {
+@:noCompletion final class Activity {
 	public var type:Type;
 
 	public var state:String;

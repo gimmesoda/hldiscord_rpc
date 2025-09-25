@@ -11,7 +11,7 @@ function main() {
 	}
 
 	Rpc.initialize('1417413098482172044', handlers);
-	Rpc.createCallbacksDaemon();
+	Rpc.callbacksDaemon.create();
 
 	final activity:Activity = new Activity();
 	activity.state = 'passed!';
@@ -22,5 +22,5 @@ function main() {
 	Rpc.updateActivity(activity);
 
 	Sys.getChar(false);
-	Rpc.shutdown();
+	Rpc.release();
 }
