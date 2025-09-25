@@ -4,8 +4,8 @@
 # CMake artifacts
 /build/
 
-# Test bytecode
-/test.hl
+# Sample bytecode
+/sample.hl
 
 # Output DLL
 /discord_rpc.hdll*

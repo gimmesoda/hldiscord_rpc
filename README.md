@@ -2,9 +2,6 @@
 
 A [Discord RPC](https://github.com/discord/discord-rpc) library wrapper for Haxe/HashLink.
 
-> [!WARNING]
-> This library is still under development and has not been properly tested
-
 ## Features
 
 - New activity functionality
@@ -22,7 +19,7 @@ haxelib install hxcpp
 
 ### Using VS Code
 
-Run the **Build Library** task
+Run the `Build Library (HXCPP)` task
 
 ### Manual Build
 
