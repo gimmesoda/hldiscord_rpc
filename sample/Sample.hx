@@ -16,7 +16,7 @@ function main() {
 	final activity:Activity = new Activity();
 	activity.state = 'passed!';
 
-	final buttons = [new Activity.Button('GitHub repo', 'https://github.com/gimmesoda/hldiscord_rpc')];
+	final buttons:Array<Activity.Button> = [new Activity.Button('GitHub repo', 'https://github.com/gimmesoda/hldiscord_rpc')];
 	activity.buttons = Vector.fromArrayCopy(buttons);
 
 	Rpc.updateActivity(activity);
